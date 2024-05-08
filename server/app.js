@@ -25,7 +25,11 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  console.log(" user connected",socket.id);
+  socket.on("message", (data) => {
+    io.emit("receive-message", data);
+  });
+  
+  console.log(" user connected", socket.id);
 });
 
 server.listen(3000, () => {
