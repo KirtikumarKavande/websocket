@@ -26,11 +26,16 @@ app.get("/", (req, res) => {
 
 io.on("connection", (socket) => {
   socket.on("message", (data) => {
-    io.to(data.roomId).emit("receive-message", data.message);
+    
+    socket.broadcast.to(data.roomId).emit("receive-message", data.message);
   });
-
-  console.log(" user connected", socket.id);
+  socket.on("join-room", (roomName) => {
+    socket.join(roomName);
+    console.log(`user joined to room ${roomName}`);
+  });
 });
+
+
 
 server.listen(3000, () => {
   console.log("server running at port 3000");
