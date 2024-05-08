@@ -26,9 +26,9 @@ app.get("/", (req, res) => {
 
 io.on("connection", (socket) => {
   socket.on("message", (data) => {
-    io.emit("receive-message", data);
+    io.to(data.roomId).emit("receive-message", data.message);
   });
-  
+
   console.log(" user connected", socket.id);
 });
 
